@@ -9,10 +9,13 @@ SRC_DIR = src
 # Target executable name
 TARGET = $(BIN_DIR)/ripgit
 
-# Source files (main.cpp in root, plus any additional files in src if needed)
-SRCS = main.cpp $(wildcard $(SRC_DIR)/*.cpp)
+# Recursive wildcard: finds all files matching $2 under directory $1, at any depth
+rwildcard = $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
 
-# Object files mirrored into BIN_DIR (e.g. main.cpp -> bin/main.o, src/common.cpp -> bin/src/common.o)
+# Source files: main.cpp in root, plus every .cpp anywhere under src/ (any depth)
+SRCS = main.cpp $(call rwildcard,$(SRC_DIR)/,*.cpp)
+
+# Object files mirrored into BIN_DIR, preserving subdirectory structure
 OBJS = $(addprefix $(BIN_DIR)/,$(SRCS:.cpp=.o))
 
 # Default rule (runs clean first, then creates dir and builds target)

@@ -1,4 +1,5 @@
 #include "include/common.hpp"
+#include "include/init.hpp"
 #include <cctype>
 #include <iostream>
 #include <iterator>
@@ -13,6 +14,7 @@ void sendHelpMessage() {
   std::cout << "  help --> shows this message" << std::endl;
   std::cout << "  version --> print the version of ripgit to the screen"
             << std::endl;
+  std::cout << "  init --> initialize a git project" << std::endl;
 }
 
 int ripgitError(std::string string) {
@@ -46,6 +48,12 @@ std::vector<Argument> detectArguments(int argc, char *argv[]) {
           version.name = "version";
           argument.push_back(version);
           break;
+        } else if (x.name == "init") {
+
+          Argument init;
+          init.name = "init";
+          argument.push_back(init);
+          break;
         }
       }
     }
@@ -69,6 +77,11 @@ void parseArguments(std::vector<Argument> arguments, int argc, char *argv[]) {
     } else if (x.name == "version") {
 
       std::cout << "Version: " << VERSION << std::endl;
+
+    } else if (x.name == "init") {
+
+      // We use the init function to start the initialization of a git project
+      init();
     }
   }
 }

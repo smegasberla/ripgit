@@ -35,7 +35,7 @@ inline std::vector<Argument> ARGUMENT_LIST = {
 
     {"help", false},
     {"version", false},
-    {"clone", false},
+    {"init", false},
 };
 
 inline std::vector<SubArg> SUBARG_LIST = {
