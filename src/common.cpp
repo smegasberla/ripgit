@@ -5,6 +5,7 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
+#include <string>
 #include <vector>
 
 void sendHelpMessage() {
@@ -27,45 +28,64 @@ int ripgitError(std::string string) {
 
 std::vector<Argument> detectArguments(int argc, char *argv[]) {
 
-  std::vector<Argument> argument;
+  std::vector<Argument> result;
+  Argument *currentCommand = nullptr;
+  SubArg *lastSubArg = nullptr;
+  bool seenAnyCommand = false;
 
   for (int i = 1; i < argc; i++) {
     bool found = false;
+    std::string str = std::string(argv[i]);
+
+    if (str.rfind("--", 0) == 0) {
+
+      SubArg longArg;
+      longArg.name = str.substr(2);
+
+      continue;
+    } else if (str.rfind("-", 0) == 0) {
+
+      SubArg shortArg;
+      shortArg.name = str.substr(1);
+
+      continue;
+    }
 
     for (Argument &x : ARGUMENT_LIST) {
-      found = true;
-
       if (std::string(argv[i]) == x.name) {
+        found = true;
 
         if (x.name == "help") {
+          found = true;
 
           Argument help;
           help.name = "help";
-          argument.push_back(help);
+          result.push_back(help);
           break;
 
         } else if (x.name == "version") {
+          found = true;
 
           Argument version;
           version.name = "version";
-          argument.push_back(version);
+          result.push_back(version);
           break;
         } else if (x.name == "init") {
+          found = true;
 
           Argument init;
           init.name = "init";
-          argument.push_back(init);
+          result.push_back(init);
           break;
         }
       }
     }
     if (!found) {
-
       ripgitError("unknown argument: " + std::string(argv[i]));
       break;
     }
   }
-  return argument;
+  return result;
 }
 
 void parseArguments(std::vector<Argument> arguments, int argc, char *argv[]) {

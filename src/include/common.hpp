@@ -21,14 +21,13 @@ struct Argument {
 };
 
 typedef struct SubArg {
-
-  Argument main;
+  Argument *main = nullptr;
   std::string name;
+  std::string value;
   bool isFlag = false;
-  std::string flagShort;
+  bool isLong = false;
   SubArg *before = nullptr;
   SubArg *after = nullptr;
-
 } SubArg;
 
 inline std::vector<Argument> ARGUMENT_LIST = {
@@ -37,10 +36,6 @@ inline std::vector<Argument> ARGUMENT_LIST = {
     {"version", false},
     {"init", false},
     {"hash-object", false},
-};
-
-inline std::vector<SubArg> SUBARG_LIST = {
-
 };
 
 std::vector<Argument> detectArguments(int argc, char *argv[]);
