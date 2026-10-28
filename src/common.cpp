@@ -33,9 +33,9 @@ std::vector<Argument> detectArguments(int argc, char *argv[]) {
     bool found = false;
 
     for (Argument &x : ARGUMENT_LIST) {
+      found = true;
 
       if (std::string(argv[i]) == x.name) {
-        found = true;
 
         if (x.name == "help") {
 
@@ -90,10 +90,16 @@ void parseArguments(std::vector<Argument> arguments, int argc, char *argv[]) {
 
 std::string binaryToHex(std::vector<unsigned char> &digest) {
 
+  // Creates a string stream, like cout but instead of printing, everything
+  // accumulates in memory
   std::ostringstream oss;
 
   for (auto x : digest) {
 
+    // std::hex = formats the integers to hexadecimal
+    // std::setfill('0') = pads the value minimum value with 0 (es: instead of
+    // having 5, we have 05) std::setw(2) = applies to the very next thing in
+    // the stream, sets a minimum of 2 charachters for that one value
     oss << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(x);
   }
 

@@ -6,4 +6,5 @@ namespace fs = std::filesystem;
 
 const fs::path OBJ_DIR = fs::current_path() / ".git" / "objects";
 
-std::string hashObjects(size_t sizeInBytes, std::string fileContents);
+std::string hashObjects(size_t sizeInBytes, std::string fileContents,
+                        bool print);
