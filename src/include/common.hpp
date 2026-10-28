@@ -36,6 +36,7 @@ inline std::vector<Argument> ARGUMENT_LIST = {
     {"help", false},
     {"version", false},
     {"init", false},
+    {"hash-object", false},
 };
 
 inline std::vector<SubArg> SUBARG_LIST = {
@@ -47,3 +48,5 @@ std::vector<Argument> detectArguments(int argc, char *argv[]);
 void parseArguments(std::vector<Argument> arguments, int argc, char *argv[]);
 
 int ripgitError(std::string string);
+
+std::string binaryToHex(std::vector<unsigned char> &digest);

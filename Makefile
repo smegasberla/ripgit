@@ -1,6 +1,7 @@
 # Compiler and flags
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -Isrc/include
+LDFLAGS = -lssl -lcrypto -lz
 
 # Directories
 BIN_DIR = bin
@@ -24,7 +25,7 @@ all: clean $(TARGET)
 # Link the executable
 $(TARGET): $(OBJS)
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 # Compile source files into object files under BIN_DIR, creating subdirs as needed
 $(BIN_DIR)/%.o: %.cpp

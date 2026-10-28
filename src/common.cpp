@@ -1,8 +1,10 @@
 #include "include/common.hpp"
 #include "include/init.hpp"
 #include <cctype>
+#include <ios>
 #include <iostream>
 #include <iterator>
+#include <sstream>
 #include <vector>
 
 void sendHelpMessage() {
@@ -26,9 +28,9 @@ int ripgitError(std::string string) {
 std::vector<Argument> detectArguments(int argc, char *argv[]) {
 
   std::vector<Argument> argument;
-  bool found = false;
 
   for (int i = 1; i < argc; i++) {
+    bool found = false;
 
     for (Argument &x : ARGUMENT_LIST) {
 
@@ -84,4 +86,16 @@ void parseArguments(std::vector<Argument> arguments, int argc, char *argv[]) {
       init();
     }
   }
+}
+
+std::string binaryToHex(std::vector<unsigned char> &digest) {
+
+  std::ostringstream oss;
+
+  for (auto x : digest) {
+
+    oss << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(x);
+  }
+
+  return oss.str();
 }
